@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:56:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/03 13:55:57 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/03 14:33:55 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	free_parent(t_pipex *pipex)
 {
 	int	i;
 
-	if (pipex->fd_infile > 0)
+	if (pipex->fd_infile && pipex->fd_infile > 0)
 		close(pipex->fd_infile);
-	if (pipex->fd_outfile > 0)
+	if (pipex->fd_outfile && pipex->fd_outfile > 0)
 		close(pipex->fd_outfile);
 	i = 0;
 	while (pipex->path_final[i])
@@ -45,7 +45,7 @@ void	free_parent(t_pipex *pipex)
 		i++;
 	}
 	free(pipex->path_final);
-	free(pipex->path);
+	//free(pipex->path);
 }
 
 void	free_child(t_pipex *pipex)

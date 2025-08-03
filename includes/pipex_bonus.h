@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/01 14:17:30 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/02 12:31:45 by lenakach         ###   ########.fr       */
+/*   Created: 2025/08/02 12:14:20 by lenakach          #+#    #+#             */
+/*   Updated: 2025/08/03 14:38:11 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ typedef struct s_pipex
 {
 	int		fd_infile;
 	int		fd_outfile;
-	int		pid1;
-	int		pid2;
-	int		pipou[2];
+	int		pid[1024];
+	int		pipou[1024][2];
 	char	*path;
 	char	**path_final;
 	char	**cmd_args;
@@ -53,15 +52,11 @@ void		free_all(t_pipex *pipex);
 void		free_parent_exit(t_pipex *pipex);
 void		free_all_exit127(t_pipex *pipex);
 
-// Process
-void		second_child(t_pipex pipex, char **av, char **envp);
-void		first_child(t_pipex pipex, char **av, char **envp);
+void		first_child(t_pipex *pipex, char **av, char **envp);
+void		last_child(t_pipex *pipex, char **av, char **envp, int ac);
 
-// utils
-void		forking(t_pipex *pipex, char **av, char **envp);
-void		piping(t_pipex *pipex);
-void		spliting(t_pipex *pipex);
 void		close_fd(t_pipex *pipex);
 void		close_fd_and_pipes(t_pipex *pipex);
+char		*get_cmd(char **path, char *cmd);
 
 #endif
