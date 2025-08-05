@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/01 14:27:57 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/02 13:07:35 by lenakach         ###   ########.fr       */
+/*   Created: 2025/08/05 12:46:08 by lenakach          #+#    #+#             */
+/*   Updated: 2025/08/05 12:46:28 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 int	msg(char *error)
 {

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:59:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/02 11:18:41 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/03 16:54:48 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*get_cmd(char **path, char *cmd)
 	int		i;
 
 	i = 0;
-	if (!cmd)
+	if (!cmd || !*path)
 		return (NULL);
 	while (path[i])
 	{
@@ -28,6 +28,8 @@ static char	*get_cmd(char **path, char *cmd)
 			return (NULL);
 		cmd_finale = ft_strjoin(tmp, cmd);
 		free(tmp);
+		if (!cmd_finale)
+			return (NULL);
 		if (access(cmd_finale, 0) == 0)
 			return (cmd_finale);
 		free(cmd_finale);

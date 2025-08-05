@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:16:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/02 11:49:17 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/03 16:52:46 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	main(int ac, char **av, char **envp)
 	t_pipex	pipex;
 	int		sortie;
 
+	if (!*envp)
+		return (1);
 	if (ac != 5)
 		return (msg("Wrong number of arguments\n"));
 	pipex.fd_infile = open(av[1], O_RDONLY);

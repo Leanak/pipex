@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:56:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/03 13:55:57 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/03 16:52:53 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,16 @@ void	free_parent(t_pipex *pipex)
 		close(pipex->fd_infile);
 	if (pipex->fd_outfile > 0)
 		close(pipex->fd_outfile);
-	i = 0;
-	while (pipex->path_final[i])
+	if (pipex->path_final)
 	{
-		free(pipex->path_final[i]);
-		i++;
+		i = 0;
+		while (pipex->path_final[i])
+		{
+			free(pipex->path_final[i]);
+			i++;
+		}
+		free(pipex->path_final);
 	}
-	free(pipex->path_final);
-	free(pipex->path);
 }
 
 void	free_child(t_pipex *pipex)

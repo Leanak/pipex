@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 12:14:20 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/03 14:38:11 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:32:25 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,17 @@ int			msg_error(char *error);
 void		free_parent(t_pipex *pipex);
 void		free_child(t_pipex *pipex);
 void		free_all(t_pipex *pipex);
-void		free_parent_exit(t_pipex *pipex);
-void		free_all_exit127(t_pipex *pipex);
+// void		free_parent_exit(t_pipex *pipex);
+// void		free_all_exit127(t_pipex *pipex);
 
+void		first_pipe(t_pipex *pipex, char **av, char **envp);
 void		first_child(t_pipex *pipex, char **av, char **envp);
-void		last_child(t_pipex *pipex, char **av, char **envp, int ac);
-
+void		inter_pipe(t_pipex *pipex, char **av, int ac, char **envp);
+void		last_pipe(t_pipex *pipex, char **av, int ac, char **envp);
+void		last_child(t_pipex *pipex, char **av, int ac, char **envp);
+// close
 void		close_fd(t_pipex *pipex);
-void		close_fd_and_pipes(t_pipex *pipex);
+// void		close_fd_and_pipes(t_pipex *pipex);
 char		*get_cmd(char **path, char *cmd);
 
 #endif
