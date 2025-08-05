@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:46:49 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 15:07:20 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:59:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_cmd(char **path, char *cmd)
 	int		i;
 
 	i = 0;
-	if (!cmd)
+	if (!path || !cmd)
 		return (NULL);
 	while (path[i])
 	{
@@ -76,6 +76,11 @@ void	first_pipe(t_pipex *pipex, char **av, char **envp)
 	pipex->pid[0] = fork();
 	if (pipex->pid[0] == 0)
 		first_child(pipex, av, envp);
+	else
+	{
+		close(pipex->pipou[0][0]);
+		close(pipex->pipou[0][1]);
+	}
 }
 
 void	first_child(t_pipex *pipex, char **av, char **envp)
@@ -83,6 +88,8 @@ void	first_child(t_pipex *pipex, char **av, char **envp)
 	if (pipex->fd_infile < 0)
 	{
 		free_parent(pipex);
+		close(pipex->pipou[0][0]);
+		close(pipex->pipou[0][1]);
 		exit(1);
 	}
 	dup2(pipex->pipou[0][1], 1);
@@ -108,6 +115,8 @@ void	first_child(t_pipex *pipex, char **av, char **envp)
 	}
 	execve(pipex->cmd, pipex->cmd_args, envp);
 	msg_error("First execve not working");
+	close_all_pipe(pipex, 1);
+	close_fd(pipex);
 	free_all(pipex);
 	exit(1);
 }

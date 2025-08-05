@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 12:14:20 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 14:32:25 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:27:07 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int			msg_error(char *error);
 void		free_parent(t_pipex *pipex);
 void		free_child(t_pipex *pipex);
 void		free_all(t_pipex *pipex);
+void		free_split(char **split);
+
 // void		free_parent_exit(t_pipex *pipex);
 // void		free_all_exit127(t_pipex *pipex);
 
@@ -57,9 +59,10 @@ void		first_child(t_pipex *pipex, char **av, char **envp);
 void		inter_pipe(t_pipex *pipex, char **av, int ac, char **envp);
 void		last_pipe(t_pipex *pipex, char **av, int ac, char **envp);
 void		last_child(t_pipex *pipex, char **av, int ac, char **envp);
+char		*get_cmd(char **path, char *cmd);
+
 // close
 void		close_fd(t_pipex *pipex);
-// void		close_fd_and_pipes(t_pipex *pipex);
-char		*get_cmd(char **path, char *cmd);
+void		close_all_pipe(t_pipex *pipex, int count);
 
 #endif

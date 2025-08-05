@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:58:40 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 14:37:10 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:53:03 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	inter_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 	j = 3;
 	while (i < ac - 4)
 	{
-		printf("NEW COMMAND et mon i : %d\n", i);
 		if (pipe(pipex->pipou[i]) < 0)
 		{
 			msg_error("pipe I not working");
@@ -41,6 +40,8 @@ void	inter_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 			if (!pipex->cmd_args)
 			{
 				msg_error("Split cmd args failed");
+				close_all_pipe(pipex, i);
+				close_fd(pipex);
 				free_parent(pipex);
 				exit(1);
 			}
@@ -49,6 +50,8 @@ void	inter_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 			{
 				perror("Not finding cmd i");
 				free_all(pipex);
+				close_all_pipe(pipex, i);
+				close_fd(pipex);
 				exit(127);
 			}
 			execve(pipex->cmd, pipex->cmd_args, envp);
@@ -58,9 +61,10 @@ void	inter_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 		}
 		else
 		{
-			// close(pipex->pipou[i][1]);
 			close(pipex->pipou[i - 1][0]);
 			close(pipex->pipou[i - 1][1]);
+			close(pipex->pipou[i][0]);
+			close(pipex->pipou[i][1]);
 		}
 		i++;
 		j++;

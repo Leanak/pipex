@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 16:56:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 14:53:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:52:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,13 @@ int	main(int ac, char **av, char **envp)
 	first_pipe(&pipex, av, envp);
 	inter_pipe(&pipex, av, ac, envp);
 	last_pipe(&pipex, av, ac, envp);
+	free_split(pipex.path_final);
+	close_fd(&pipex);
 	while (i < ac - 4)
 	{
 		waitpid(pipex.pid[i], &sortie, 2);
 		i++;
 	}
+	//close_all_pipe(&pipex, ac - 4);
 	return (WEXITSTATUS(sortie));
 }

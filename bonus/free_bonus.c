@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:51:12 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 13:15:35 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:21:07 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	free_child(t_pipex *pipex)
 	if (pipex->cmd_args)
 	{
 		i = 0;
-		while (pipex->cmd_args)
+		while (pipex->cmd_args[i])
 		{
 			free(pipex->cmd_args[i]);
 			i++;
@@ -52,4 +52,17 @@ void	free_all(t_pipex *pipex)
 {
 	free_parent(pipex);
 	free_child(pipex);
+}
+
+void	free_split(char **split)
+{
+	int i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
