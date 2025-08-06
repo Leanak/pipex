@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_bonus.c                                      :+:      :+:    :+:   */
+/*   close.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/05 12:46:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 16:40:13 by lenakach         ###   ########.fr       */
+/*   Created: 2025/08/06 16:33:26 by lenakach          #+#    #+#             */
+/*   Updated: 2025/08/06 16:35:01 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex_bonus.h"
+#include "../includes/pipex.h"
 
-int	msg(char *error)
+void	close_pipes(t_pipex *pipex)
 {
-	write(2, error, ft_strlen(error));
-	return (1);
+	close(pipex->pipou[0]);
+	close(pipex->pipou[1]);
 }
 
-int	msg_error(char *error)
+void	close_fd_and_pipes(t_pipex *pipex)
 {
-	perror(error);
-	return (1);
+	close_fd(pipex);
+	close_pipes(pipex);
+}
+
+void	close_fd(t_pipex *pipex)
+{
+	if (pipex->fd_infile > 0)
+		close(pipex->fd_infile);
+	if (pipex->fd_outfile > 0)
+		close(pipex->fd_outfile);
+	exit(1);
 }

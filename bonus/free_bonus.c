@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:51:12 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 16:21:07 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:56:14 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	free_all(t_pipex *pipex)
 
 void	free_split(char **split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (split[i])
@@ -65,4 +65,13 @@ void	free_split(char **split)
 		i++;
 	}
 	free(split);
+}
+
+void	free_all_exit127(t_pipex *pipex, const char *error, int count)
+{
+	perror(error);
+	free_all(pipex);
+	close_all_pipe(pipex, count);
+	close_fd(pipex);
+	exit(127);
 }

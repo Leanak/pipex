@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/08/06 14:02:19 by lenakach         ###   ########.fr        #
+#    Updated: 2025/08/06 16:27:47 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 #Sources
 SRC = $(SRC_DIR)/pipex.c $(SRC_DIR)/error.c	$(SRC_DIR)/free.c \
-	$(SRC_DIR)/process.c $(SRC_DIR)/utils.c
+	$(SRC_DIR)/process.c $(SRC_DIR)/utils.c $(SRC_DIR)/close.c
 
 SRC_BONUS = $(SRC_BONUS_DIR)/error_bonus.c $(SRC_BONUS_DIR)/free_bonus.c $(SRC_BONUS_DIR)/pipex_bonus.c \
 			$(SRC_BONUS_DIR)/first_bonus.c $(SRC_BONUS_DIR)/inter_bonus.c $(SRC_BONUS_DIR)/close_bonus.c \

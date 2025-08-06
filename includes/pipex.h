@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:17:30 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/02 12:31:45 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:31:48 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ void		first_child(t_pipex pipex, char **av, char **envp);
 void		forking(t_pipex *pipex, char **av, char **envp);
 void		piping(t_pipex *pipex);
 void		spliting(t_pipex *pipex);
+
+//Close
+void		close_pipes(t_pipex *pipex);
 void		close_fd(t_pipex *pipex);
 void		close_fd_and_pipes(t_pipex *pipex);
 

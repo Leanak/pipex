@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 12:14:20 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 13:58:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:55:46 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void		free_parent(t_pipex *pipex);
 void		free_child(t_pipex *pipex);
 void		free_all(t_pipex *pipex);
 void		free_split(char **split);
+void		free_all_exit127(t_pipex *pipex, const char *error, int count);
 
 // Heredoc
 void		handle_heredoc(char *limiter);
@@ -65,5 +66,6 @@ char		*get_cmd(char **path, char *cmd);
 // close
 void		close_fd(t_pipex *pipex);
 void		close_all_pipe(t_pipex *pipex, int count);
+void		close_pipes(t_pipex *pipex);
 
 #endif
