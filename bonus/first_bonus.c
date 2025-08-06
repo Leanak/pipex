@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:46:49 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 16:59:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:04:01 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,14 @@ void	first_pipe(t_pipex *pipex, char **av, char **envp)
 	pipex->pid[0] = fork();
 	if (pipex->pid[0] == 0)
 		first_child(pipex, av, envp);
-	else
+	else if (pipex->pid[0] < 0)
 	{
-		close(pipex->pipou[0][0]);
 		close(pipex->pipou[0][1]);
+		msg_error("FIRST FORK FAILED");
+		exit(1);
 	}
+	else
+		close(pipex->pipou[0][1]);
 }
 
 void	first_child(t_pipex *pipex, char **av, char **envp)
@@ -99,7 +102,7 @@ void	first_child(t_pipex *pipex, char **av, char **envp)
 	close(pipex->fd_infile);
 	if (pipex->fd_outfile > 0)
 		close(pipex->fd_outfile);
-	pipex->cmd_args = ft_split(av[2], ' ');
+	pipex->cmd_args = ft_split(av[pipex->start], ' ');
 	if (!pipex->cmd_args)
 	{
 		msg_error("Split first cmd args failed");

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 16:56:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 16:52:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:49:24 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,27 @@ int	main(int ac, char **av, char **envp)
 	i = 0;
 	if (!*envp)
 		return (1);
-	pipex.fd_infile = open(av[1], O_RDONLY);
-	if (pipex.fd_infile < 0)
-		msg_error("Infile not opening");
-	pipex.fd_outfile = open(av[ac - 1], O_RDWR | O_TRUNC | O_CREAT, 0644);
-	if (pipex.fd_outfile < 0)
-		msg_error("Outfile not opening");
+	if (ft_strncmp(av[1], "here_doc", 8) == 0)
+	{
+		printf("HELLO\n");
+		pipex.start = 3;
+		pipex.fd_outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_APPEND,
+				0777);
+		handle_heredoc(av[2]);
+		pipex.fd_infile = open(".heredoc_tmp", O_RDONLY);
+		if (pipex.fd_infile < 0)
+			msg_error("Heredoc tmp file not opening in main");
+	}
+	else
+	{
+		pipex.start = 2;
+		pipex.fd_infile = open(av[1], O_RDONLY, 0777);
+		if (pipex.fd_infile < 0)
+			msg_error("Infile not opening");
+		pipex.fd_outfile = open(av[ac - 1], O_WRONLY | O_TRUNC | O_CREAT, 0777);
+		if (pipex.fd_outfile < 0)
+			msg_error("Outfile not opening");
+	}
 	pipex.path = find_path(envp);
 	if (!pipex.path)
 	{
@@ -63,6 +78,7 @@ int	main(int ac, char **av, char **envp)
 		waitpid(pipex.pid[i], &sortie, 2);
 		i++;
 	}
-	//close_all_pipe(&pipex, ac - 4);
+	if (ft_strncmp(av[1], "here_doc", 8) == 0)
+		unlink(".heredoc_tmp");
 	return (WEXITSTATUS(sortie));
 }

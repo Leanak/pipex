@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 13:11:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 14:56:41 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:01:27 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ void	last_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 	pipex->pid[ac - 3] = fork();
 	if (pipex->pid[ac - 3] == 0)
 		last_child(pipex, av, ac, envp);
+	else if (pipex->pid[ac - 3] < 0)
+	{	
+		close(pipex->pipou[ac - 3][0]);
+		msg_error("LAST FORK FAILED");
+		exit (1);
+	}	
+	else
+		close(pipex->pipou[ac - 5][0]);
 }
 
 void	last_child(t_pipex *pipex, char **av, int ac, char **envp)

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 12:14:20 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/05 16:27:07 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/06 13:58:53 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_pipex
 	char	**path_final;
 	char	**cmd_args;
 	char	*cmd;
+	int		start;
 }			t_pipex;
 
 // Messages d'erreurs
@@ -51,8 +52,8 @@ void		free_child(t_pipex *pipex);
 void		free_all(t_pipex *pipex);
 void		free_split(char **split);
 
-// void		free_parent_exit(t_pipex *pipex);
-// void		free_all_exit127(t_pipex *pipex);
+// Heredoc
+void		handle_heredoc(char *limiter);
 
 void		first_pipe(t_pipex *pipex, char **av, char **envp);
 void		first_child(t_pipex *pipex, char **av, char **envp);
