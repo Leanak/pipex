@@ -6,12 +6,12 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 12:14:20 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 16:55:46 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:40:34 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 // write, read, fork, getpid, getppid, dup, dup2, pipe, execve, access, unlink
 # include <unistd.h>

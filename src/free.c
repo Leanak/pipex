@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:56:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/03 16:52:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:31:24 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,10 @@
 
 void	free_all(t_pipex *pipex)
 {
+	if (!pipex)
+		return ;
 	free_parent(pipex);
 	free_child(pipex);
-}
-
-void	free_all_exit127(t_pipex *pipex)
-{
-	free_all(pipex);
-	exit(127);
-}
-
-void	free_parent_exit(t_pipex *pipex)
-{
-	free_parent(pipex);
-	exit(1);
 }
 
 void	free_parent(t_pipex *pipex)
@@ -55,11 +45,29 @@ void	free_child(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (pipex->cmd_args[i])
+	if (pipex->cmd_args)
 	{
-		free(pipex->cmd_args[i]);
-		i++;
+		while (pipex->cmd_args[i])
+		{
+			free(pipex->cmd_args[i]);
+			i++;
+		}
+		free(pipex->cmd_args);
 	}
-	free(pipex->cmd_args);
-	free(pipex->cmd);
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (split)
+	{
+		while (split[i])
+		{
+			free(split[i]);
+			i++;
+		}
+		free(split);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:17:30 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 16:31:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/08 15:32:38 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,28 @@ typedef struct s_pipex
 
 // Messages d'erreurs
 int			msg(char *error);
-int			msg_error(char *error);
+void		error_exit1(t_pipex *pipex, char *error);
+void		error_exit127(t_pipex *pipex, char *error);
 
 // Free
 void		free_parent(t_pipex *pipex);
 void		free_child(t_pipex *pipex);
 void		free_all(t_pipex *pipex);
-void		free_parent_exit(t_pipex *pipex);
-void		free_all_exit127(t_pipex *pipex);
+void		free_split(char **split);
+void		init_pipex(t_pipex *pipex);
 
 // Process
-void		second_child(t_pipex pipex, char **av, char **envp);
-void		first_child(t_pipex pipex, char **av, char **envp);
+void		second_child(t_pipex *pipex, char **av, char **envp);
+void		first_child(t_pipex *pipex, char **av, char **envp);
 
 // utils
+void		opening(t_pipex *pipex, char **av, int ac);
 void		forking(t_pipex *pipex, char **av, char **envp);
 void		piping(t_pipex *pipex);
-void		spliting(t_pipex *pipex);
+char		*find_path(char **envp);
+char		*get_cmd(char *cmd, char **envp);
 
-//Close
+// Close
 void		close_pipes(t_pipex *pipex);
 void		close_fd(t_pipex *pipex);
 void		close_fd_and_pipes(t_pipex *pipex);

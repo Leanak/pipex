@@ -6,37 +6,78 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:45:11 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/02 11:49:54 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:37:04 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	forking(t_pipex *pipex, char **av, char **envp)
+void	init_pipex(t_pipex *pipex)
 {
-	pipex->pid1 = fork();
-	if (pipex->pid1 == 0)
-		first_child(*pipex, av, envp);
-	pipex->pid2 = fork();
-	if (pipex->pid2 == 0)
-		second_child(*pipex, av, envp);
+	pipex->path = NULL;
+	pipex->path_final = NULL;
+	pipex->cmd_args = NULL;
+	pipex->cmd = NULL;
 }
 
-void	piping(t_pipex *pipex)
+char	*find_path(char **envp)
 {
-	if (pipe(pipex->pipou) < 0)
-	{
-		msg_error("Error with the pipe");
-		close_fd(pipex);
-	}
+	int	i;
+
+	i = 0;
+	while (envp[i] && ft_strncmp("PATH", envp[i], 4) != 0)
+		i++;
+	if (!envp[i])
+		return (NULL);
+	return (envp[i] + 5);
 }
 
-void	spliting(t_pipex *pipex)
+char	*fill_path(char **path, char *cmd)
 {
-	if (!pipex->path_final)
+	char	*tmp;
+	char	*cmd_finale;
+	int		i;
+
+	i = 0;
+	while (path[i])
 	{
-		msg_error("Split path failed\n");
-		close_fd_and_pipes(pipex);
-		exit(1);
+		tmp = ft_strjoin(path[i], "/");
+		if (!tmp)
+			return (NULL);
+		cmd_finale = ft_strjoin(tmp, cmd);
+		free(tmp);
+		if (!cmd_finale)
+			return (NULL);
+		if (access(cmd_finale, X_OK) == 0)
+		{
+			free_split(path);
+			return (cmd_finale);
+		}
+		free(cmd_finale);
+		i++;
 	}
+	free_split(path);
+	return (NULL);
+}
+
+char	*get_cmd(char *cmd, char **envp)
+{
+	char	**path;
+	char	*path_tmp;
+	int		i;
+	char	*result;
+
+	i = 0;
+	if (!cmd || !*cmd)
+		return (NULL);
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
+	path_tmp = find_path(envp);
+	if (!path_tmp)
+		return (NULL);
+	path = ft_split(path_tmp, ':');
+	if (!path)
+		return (NULL);
+	result = fill_path(path, cmd);
+	return (result);
 }

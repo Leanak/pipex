@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:49:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 20:00:28 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:36:45 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**ft_split(const char *s, char c)
 
 	ft_initialize(&i, &j, &s_word);
 	arr = ft_calloc((word_count(s, c) + 1), sizeof(char *));
-	if (!arr || !s)
+	if (!arr || !s || !*s)
 		return (NULL);
 	while (i <= ft_strlen(s))
 	{
