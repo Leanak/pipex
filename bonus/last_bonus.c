@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 13:11:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 18:44:12 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:41:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	last_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 	else if (pipex->pid[ac - 3] < 0)
 	{	
 		close(pipex->pipou[ac - 3][0]);
-		msg_error("LAST FORK FAILED");
+		perror("LAST FORK FAILED");
 		exit (1);
 	}	
 	else
@@ -44,20 +44,11 @@ void	last_child(t_pipex *pipex, char **av, int ac, char **envp)
 		close(pipex->fd_infile);
 	pipex->cmd_args = ft_split(av[ac - 2], ' ');
 	if (!pipex->cmd_args)
-	{
-		msg_error("Split cmd args failed");
-		//free_parent(pipex);
-		exit(1);
-	}
+		error_exit1(pipex, " HEY Split cmd args failed");
 	pipex->cmd = get_cmd(pipex->cmd_args[0], envp);
 	if (!pipex->cmd)
-	{
-		msg_error("Not finding command with access");
-		free_all(pipex);
-		exit(127);
-	}
+		error_exit127(pipex, "COCO", 0);
 	execve(pipex->cmd, pipex->cmd_args, envp);
-	msg_error(" HEY Execve not working");
-	free_all(pipex);
+	close_and_free_all(pipex, 1, "Execve Not working");
 	exit(1);
 }

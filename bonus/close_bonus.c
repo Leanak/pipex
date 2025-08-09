@@ -6,11 +6,30 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 17:01:04 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 15:55:32 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:42:26 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
+
+void	close_fd_and_exit(t_pipex *pipex)
+{
+	close_fd(pipex);
+	exit(1);
+}
+
+void	close_and_free_all(t_pipex *pipex, int count, char *error)
+{
+	if (error)
+		perror(error);
+	if (pipex->cmd)
+		free(pipex->cmd);
+	close_all_pipe(pipex, count);
+	get_next_line(-1);
+	close_fd(pipex);
+	free_all(pipex);
+	exit (1);
+}
 
 void	close_fd(t_pipex *pipex)
 {

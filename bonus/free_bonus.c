@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:51:12 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 15:41:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:34:44 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	free_split(char **split)
 	free(split);
 }
 
-void	free_all_exit127(t_pipex *pipex, const char *error, int count)
+/* void	free_all_exit127(t_pipex *pipex, const char *error, int count)
 {
 	perror(error);
 	free_all(pipex);
@@ -75,4 +75,4 @@ void	free_all_exit127(t_pipex *pipex, const char *error, int count)
 	close_fd(pipex);
 	get_next_line(-1);
 	exit(127);
-}
+} */

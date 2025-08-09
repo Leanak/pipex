@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 16:56:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 18:44:23 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:44:30 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,19 @@ void	init_pipex_bonus(t_pipex *pipex)
 	pipex->cmd = NULL;
 }
 
+static void	close_main(t_pipex *pipex)
+{
+	get_next_line(-1);
+	close_fd(pipex);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
 	int		i;
 	int		sortie;
 
-	i = 0;
+	i = -1;
 	init_pipex_bonus(&pipex);
 	if (ft_strncmp(av[1], "here_doc", 8) == 0)
 	{
@@ -64,14 +70,10 @@ int	main(int ac, char **av, char **envp)
 	first_pipe(&pipex, av, envp);
 	inter_pipe(&pipex, av, ac, envp);
 	last_pipe(&pipex, av, ac, envp);
-	close_fd(&pipex);
-	while (i < ac - 4)
-	{
+	while (++i < ac - 4)
 		waitpid(pipex.pid[i], &sortie, 2);
-		i++;
-	}
 	if (ft_strncmp(av[1], "here_doc", 8) == 0)
 		unlink(".heredoc_tmp");
-	get_next_line(-1);
+	close_main(&pipex);
 	return (WEXITSTATUS(sortie));
 }

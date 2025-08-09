@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:40:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 16:50:11 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:29:53 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_heredoc(char *limiter)
 	line = NULL;
 	fd = open(".heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		msg_error("HEREDOC OPENING FAILED");
+		perror("HEREDOC OPENING FAILED");
 	while (1)
 	{
 		write(1, "heredoc> ", 9);

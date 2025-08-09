@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 12:14:20 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 15:54:52 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:30:37 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_pipex
 	char	**cmd_args;
 	char	*cmd;
 	int		start;
+	int		i;
+	int		j;
 }			t_pipex;
 
 // Messages d'erreurs
@@ -49,6 +51,9 @@ void		error_exit1(t_pipex *pipex, char *error);
 void		error_exitall(t_pipex *pipex, char *error, int count);
 void		error_exit127(t_pipex *pipex, char *error, int count);
 void		ultime_free_all(t_pipex *pipex, char *error, int count);
+void		close_and_free_all(t_pipex *pipex, int count, char *error);
+void		close_fd_and_exit(t_pipex *pipex);
+void		close_parent(t_pipex *pipex, int i);
 
 // Free
 void		free_parent(t_pipex *pipex);

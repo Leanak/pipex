@@ -6,70 +6,77 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:58:40 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 18:44:21 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:35:30 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
+
+static void	dup_and_close(t_pipex *pipex, int i)
+{
+	dup2(pipex->pipou[i][1], 1);
+	dup2(pipex->pipou[i - 1][0], 0);
+	close(pipex->pipou[i][1]);
+	close(pipex->pipou[i][0]);
+	close(pipex->pipou[i - 1][0]);
+	close(pipex->pipou[i - 1][1]);
+	if (pipex->fd_infile > 0)
+		close(pipex->fd_infile);
+	if (pipex->fd_outfile > 0)
+		close(pipex->fd_outfile);
+}
+
+static void	inter_args(t_pipex *pipex, int *j, int i, char **av)
+{
+	pipex->cmd_args = ft_split(av[++(*j)], ' ');
+	if (!pipex->cmd_args)
+	{
+		perror("OK");
+		get_next_line(-1);
+		close_and_free_all(pipex, i, "");
+	}
+}
+
+static void	inter_cmd(t_pipex *pipex, char **envp, int i)
+{
+	pipex->cmd = get_cmd(pipex->cmd_args[0], envp);
+	if (!pipex->cmd)
+		error_exit127(pipex, "Not finding cmd i", i);
+}
+
+static void	fork_error(t_pipex *pipex, int i)
+{
+	close(pipex->pipou[i][0]);
+	close(pipex->pipou[i - 1][0]);
+	perror("INTER FORK FAILED");
+	exit(1);
+}
 
 void	inter_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 {
 	int	i;
 	int	j;
 
-	i = 1;
-	j = pipex->start == 2 ? 3 : 4;
-	while (i < ac - 4)
+	i = 0;
+	j = 3;
+	if (pipex->start == 2)
+		j = 2;
+	while (++i < ac - 4)
 	{
 		if (pipe(pipex->pipou[i]) < 0)
-		{
-			msg_error("pipe I not working");
-			close_fd(pipex);
-			exit(1);
-		}
+			close_fd_and_exit(pipex);
 		pipex->pid[i] = fork();
 		if (pipex->pid[i] == 0)
 		{
-			dup2(pipex->pipou[i][1], 1);
-			dup2(pipex->pipou[i - 1][0], 0);
-			close(pipex->pipou[i][1]);
-			close(pipex->pipou[i][0]);
-			close(pipex->pipou[i - 1][0]);
-			close(pipex->pipou[i - 1][1]);
-			if (pipex->fd_infile > 0)
-			close(pipex->fd_infile);
-			if (pipex->fd_outfile > 0)
-			close(pipex->fd_outfile);
-			pipex->cmd_args = ft_split(av[j], ' ');
-			if (!pipex->cmd_args)
-			{
-				msg_error("Split cmd args failed");
-				close_all_pipe(pipex, i);
-				close_fd(pipex);
-				free_parent(pipex);
-				exit(1);
-			}
-			pipex->cmd = get_cmd(pipex->cmd_args[0], envp);
-			if (!pipex->cmd)
-			free_all_exit127(pipex, "Not finding cmd i", i);
+			dup_and_close(pipex, i);
+			inter_args(pipex, &j, i, av);
+			inter_cmd(pipex, envp, i);
 			execve(pipex->cmd, pipex->cmd_args, envp);
-			msg_error("HOLA Execve not working");
-			free_all(pipex);
-			exit(1);
+			close_and_free_all(pipex, i, "Execve not working");
 		}
 		else if (pipex->pid[i] < 0)
-		{
-			close(pipex->pipou[i][0]);
-			close(pipex->pipou[i - 1][0]);
-			msg_error("INTER FORK FAILED");
-			exit(1);
-		}
+			fork_error(pipex, i);
 		else
-		{
-			close(pipex->pipou[i - 1][0]);
-			close(pipex->pipou[i][1]);
-		}
-		i++;
-		j++;
+			close_parent(pipex, i);
 	}
 }

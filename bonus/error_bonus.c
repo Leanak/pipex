@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:46:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 17:43:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:46:18 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	error_exit127(t_pipex *pipex, char *error, int count)
 	exit(127);
 }
 
-void	msg_error(char *error)
+void	close_parent(t_pipex *pipex, int i)
 {
-	perror(error);
+	close(pipex->pipou[i - 1][0]);
+	close(pipex->pipou[i][1]);
 }

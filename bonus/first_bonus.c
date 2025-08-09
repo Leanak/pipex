@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:46:49 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 18:40:02 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:20:45 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	first_pipe(t_pipex *pipex, char **av, char **envp)
 {
 	if (pipe(pipex->pipou[0]) < 0)
 	{
-		msg_error("Error with first pipe");
+		perror("Error with first pipe");
 		close_fd(pipex);
 		exit(1);
 	}
@@ -26,28 +26,18 @@ void	first_pipe(t_pipex *pipex, char **av, char **envp)
 	else if (pipex->pid[0] < 0)
 	{
 		close(pipex->pipou[0][1]);
-		msg_error("FIRST FORK FAILED");
+		perror("FIRST FORK FAILED");
 		exit(1);
 	}
 	else
 		close(pipex->pipou[0][1]);
 }
 
-static void	child_exit(t_pipex *pipex, char *error)
-{
-	perror(error);
-	close_all_pipe(pipex, 1);
-	close_fd(pipex);
-	free_all(pipex);
-	exit(1);
-}
-
 void	first_child(t_pipex *pipex, char **av, char **envp)
 {
 	if (pipex->fd_infile < 0)
 	{
-		close_pipes(pipex);
-		close_fd(pipex);
+		close_and_free_all(pipex, 1, "");
 		exit(1);
 	}
 	dup2(pipex->pipou[0][1], 1);
@@ -64,5 +54,6 @@ void	first_child(t_pipex *pipex, char **av, char **envp)
 	if (!pipex->cmd)
 		error_exit127(pipex, "Not finding first cmd", 0);
 	execve(pipex->cmd, pipex->cmd_args, envp);
-	child_exit(pipex, "Execve not working");
+	perror("Execve failed");
+	close_and_free_all(pipex, 1, "");
 }
