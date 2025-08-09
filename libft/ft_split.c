@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:49:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/08 14:36:45 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 14:34:27 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	**ft_free(char **arr, int j)
 
 static void	ft_initialize(size_t *i, int *j, int *s_word)
 {
-	*i = 0;
+	*i = -1;
 	*j = 0;
 	*s_word = -1;
 }
@@ -78,10 +78,12 @@ char	**ft_split(const char *s, char c)
 	int		s_word;
 
 	ft_initialize(&i, &j, &s_word);
-	arr = ft_calloc((word_count(s, c) + 1), sizeof(char *));
-	if (!arr || !s || !*s)
+	if (!s || !*s)
 		return (NULL);
-	while (i <= ft_strlen(s))
+	arr = ft_calloc((word_count(s, c) + 1), sizeof(char *));
+	if (!arr)
+		return (NULL);
+	while (++i <= ft_strlen(s))
 	{
 		if (s[i] != c && s_word < 0)
 			s_word = i;
@@ -93,7 +95,6 @@ char	**ft_split(const char *s, char c)
 			s_word = -1;
 			j++;
 		}
-		i++;
 	}
 	return (arr);
 }

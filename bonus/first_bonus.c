@@ -6,34 +6,18 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:46:49 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 16:55:28 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 18:12:36 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
 
-char	*get_cmd(char **path, char *cmd)
+void	init_pipex(t_pipex *pipex)
 {
-	char	*tmp;
-	char	*cmd_finale;
-	int		i;
-
-	i = 0;
-	if (!path || !cmd)
-		return (NULL);
-	while (path[i])
-	{
-		tmp = ft_strjoin(path[i], "/");
-		if (!tmp)
-			return (NULL);
-		cmd_finale = ft_strjoin(tmp, cmd);
-		free(tmp);
-		if (access(cmd_finale, 0) == 0)
-			return (cmd_finale);
-		free(cmd_finale);
-		i++;
-	}
-	return (NULL);
+	pipex->path = NULL;
+	pipex->path_final = NULL;
+	pipex->cmd_args = NULL;
+	pipex->cmd = NULL;
 }
 
 void	first_pipe(t_pipex *pipex, char **av, char **envp)
@@ -54,12 +38,15 @@ void	first_pipe(t_pipex *pipex, char **av, char **envp)
 		exit(1);
 	}
 	else
+	{
 		close(pipex->pipou[0][1]);
+		close(pipex->pipou[0][0]);
+	}
 }
 
-static void	child_exit(t_pipex *pipex)
+static void	child_exit(t_pipex *pipex, char *error)
 {
-	msg_error("First execve not working");
+	perror(error);
 	close_all_pipe(pipex, 1);
 	close_fd(pipex);
 	free_all(pipex);
@@ -70,8 +57,8 @@ void	first_child(t_pipex *pipex, char **av, char **envp)
 {
 	if (pipex->fd_infile < 0)
 	{
-		free_parent(pipex);
 		close_pipes(pipex);
+		close_fd(pipex);
 		exit(1);
 	}
 	dup2(pipex->pipou[0][1], 1);
@@ -82,15 +69,11 @@ void	first_child(t_pipex *pipex, char **av, char **envp)
 	if (pipex->fd_outfile > 0)
 		close(pipex->fd_outfile);
 	pipex->cmd_args = ft_split(av[pipex->start], ' ');
-	if (!pipex->cmd_args)
-	{
-		msg_error("Split first cmd args failed");
-		free_parent(pipex);
-		exit(1);
-	}
-	pipex->cmd = get_cmd(pipex->path_final, pipex->cmd_args[0]);
+	if (!pipex->cmd_args || !pipex->cmd_args[0])
+		error_exit1(pipex, "SPlit first cmd failed");
+	pipex->cmd = get_cmd(pipex->cmd_args[0], envp);
 	if (!pipex->cmd)
-		free_all_exit127(pipex, "Not finding first cmd", 0);
+		error_exit127(pipex, "Not finding first cmd", 0);
 	execve(pipex->cmd, pipex->cmd_args, envp);
-	child_exit(pipex);
+	child_exit(pipex, "Execve not working");
 }

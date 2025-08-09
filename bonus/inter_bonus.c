@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:58:40 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 17:01:44 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 17:59:59 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	inter_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 			close(pipex->pipou[i - 1][0]);
 			close(pipex->pipou[i - 1][1]);
 			if (pipex->fd_infile > 0)
-				close(pipex->fd_infile);
+			close(pipex->fd_infile);
 			if (pipex->fd_outfile > 0)
-				close(pipex->fd_outfile);
+			close(pipex->fd_outfile);
 			pipex->cmd_args = ft_split(av[j], ' ');
 			if (!pipex->cmd_args)
 			{
@@ -49,9 +49,9 @@ void	inter_pipe(t_pipex *pipex, char **av, int ac, char **envp)
 				free_parent(pipex);
 				exit(1);
 			}
-			pipex->cmd = get_cmd(pipex->path_final, pipex->cmd_args[0]);
+			pipex->cmd = get_cmd(pipex->cmd_args[0], envp);
 			if (!pipex->cmd)
-				free_all_exit127(pipex, "Not finding cmd i", i);
+			free_all_exit127(pipex, "Not finding cmd i", i);
 			execve(pipex->cmd, pipex->cmd_args, envp);
 			msg_error("HOLA Execve not working");
 			free_all(pipex);

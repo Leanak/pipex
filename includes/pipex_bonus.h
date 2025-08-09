@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 12:14:20 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/08 16:40:34 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:54:52 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ typedef struct s_pipex
 
 // Messages d'erreurs
 int			msg(char *error);
-int			msg_error(char *error);
+void		msg_error(char *error);
+void		error_exit1(t_pipex *pipex, char *error);
+void		error_exitall(t_pipex *pipex, char *error, int count);
+void		error_exit127(t_pipex *pipex, char *error, int count);
+void		ultime_free_all(t_pipex *pipex, char *error, int count);
 
 // Free
 void		free_parent(t_pipex *pipex);
@@ -56,16 +60,22 @@ void		free_all_exit127(t_pipex *pipex, const char *error, int count);
 // Heredoc
 void		handle_heredoc(char *limiter);
 
+// Process
+void		opening(t_pipex *pipex, char **av, int ac);
 void		first_pipe(t_pipex *pipex, char **av, char **envp);
 void		first_child(t_pipex *pipex, char **av, char **envp);
 void		inter_pipe(t_pipex *pipex, char **av, int ac, char **envp);
 void		last_pipe(t_pipex *pipex, char **av, int ac, char **envp);
 void		last_child(t_pipex *pipex, char **av, int ac, char **envp);
-char		*get_cmd(char **path, char *cmd);
 
-// close
+// Close
 void		close_fd(t_pipex *pipex);
 void		close_all_pipe(t_pipex *pipex, int count);
 void		close_pipes(t_pipex *pipex);
+
+// Path & cmd
+char		*find_path(char **envp);
+char		*fill_path(char **path, char *cmd);
+char		*get_cmd(char *cmd, char **envp);
 
 #endif

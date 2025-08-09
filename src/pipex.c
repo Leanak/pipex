@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:16:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/08 15:28:13 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 14:33:50 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,3 +58,7 @@ int	main(int ac, char **av, char **envp)
 	waitpid(pipex.pid2, &sortie, 2);
 	return (WEXITSTATUS(sortie));
 }
+
+/*
+	val --suppressions=src/ok.supp -q ./pipex in "" "" /dev/stdout --> leak
+*/

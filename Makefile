@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/08/06 16:27:47 by lenakach         ###   ########.fr        #
+#    Updated: 2025/08/09 15:53:11 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME_BONUS = pipex_bonus
 
 #Compilateur et flags
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g3
 
 #Dossiers
 SRC_DIR = src
@@ -36,7 +36,8 @@ SRC = $(SRC_DIR)/pipex.c $(SRC_DIR)/error.c	$(SRC_DIR)/free.c \
 
 SRC_BONUS = $(SRC_BONUS_DIR)/error_bonus.c $(SRC_BONUS_DIR)/free_bonus.c $(SRC_BONUS_DIR)/pipex_bonus.c \
 			$(SRC_BONUS_DIR)/first_bonus.c $(SRC_BONUS_DIR)/inter_bonus.c $(SRC_BONUS_DIR)/close_bonus.c \
-			$(SRC_BONUS_DIR)/last_bonus.c $(SRC_BONUS_DIR)/heredoc.c
+			$(SRC_BONUS_DIR)/last_bonus.c $(SRC_BONUS_DIR)/heredoc.c \
+			$(SRC_BONUS_DIR)/utils_bonus.c $(SRC_BONUS_DIR)/test_free.c
 
 #GNL = $(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c 
 

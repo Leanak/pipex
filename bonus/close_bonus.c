@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 17:01:04 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 16:48:19 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:55:32 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,14 @@ void	close_all_pipe(t_pipex *pipex, int count)
 	int	i;
 
 	i = 0;
-	while (i < count)
+	if (pipex->pipou[0])
 	{
-		close(pipex->pipou[i][0]);
-		close(pipex->pipou[i][1]);
-		i++;
+		while (i < count)
+		{
+			close(pipex->pipou[i][0]);
+			close(pipex->pipou[i][1]);
+			i++;
+		}
 	}
 }
 

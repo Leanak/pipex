@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 13:11:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 16:01:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 18:01:32 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	last_child(t_pipex *pipex, char **av, int ac, char **envp)
 {
 	if (pipex->fd_outfile < 0)
 	{
-		free_parent(pipex);
+		//free_parent(pipex);
+		close_fd(pipex);
 		exit(1);
 	}
 	dup2(pipex->pipou[ac - 5][0], 0);
@@ -45,10 +46,10 @@ void	last_child(t_pipex *pipex, char **av, int ac, char **envp)
 	if (!pipex->cmd_args)
 	{
 		msg_error("Split cmd args failed");
-		free_parent(pipex);
+		//free_parent(pipex);
 		exit(1);
 	}
-	pipex->cmd = get_cmd(pipex->path_final, pipex->cmd_args[0]);
+	pipex->cmd = get_cmd(pipex->cmd_args[0], envp);
 	if (!pipex->cmd)
 	{
 		msg_error("Not finding command with access");

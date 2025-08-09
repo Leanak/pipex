@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:51:12 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/06 16:56:14 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:41:27 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ void	free_all_exit127(t_pipex *pipex, const char *error, int count)
 	free_all(pipex);
 	close_all_pipe(pipex, count);
 	close_fd(pipex);
+	get_next_line(-1);
 	exit(127);
 }
