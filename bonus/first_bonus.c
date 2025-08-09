@@ -6,19 +6,11 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:46:49 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 18:12:36 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 18:40:02 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
-
-void	init_pipex(t_pipex *pipex)
-{
-	pipex->path = NULL;
-	pipex->path_final = NULL;
-	pipex->cmd_args = NULL;
-	pipex->cmd = NULL;
-}
 
 void	first_pipe(t_pipex *pipex, char **av, char **envp)
 {
@@ -38,10 +30,7 @@ void	first_pipe(t_pipex *pipex, char **av, char **envp)
 		exit(1);
 	}
 	else
-	{
 		close(pipex->pipou[0][1]);
-		close(pipex->pipou[0][0]);
-	}
 }
 
 static void	child_exit(t_pipex *pipex, char *error)

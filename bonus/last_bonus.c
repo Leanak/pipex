@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 13:11:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 18:01:32 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/09 18:44:12 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	last_child(t_pipex *pipex, char **av, int ac, char **envp)
 {
 	if (pipex->fd_outfile < 0)
 	{
-		//free_parent(pipex);
 		close_fd(pipex);
+		close_pipes(pipex);
 		exit(1);
 	}
 	dup2(pipex->pipou[ac - 5][0], 0);
