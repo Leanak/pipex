@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:58:40 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 19:35:30 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/10 17:40:23 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	fork_error(t_pipex *pipex, int i)
 {
 	close(pipex->pipou[i][0]);
 	close(pipex->pipou[i - 1][0]);
-	perror("INTER FORK FAILED");
+	perror("Inter fork failed");
 	exit(1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 16:56:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 19:44:30 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/10 17:19:42 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ void	opening(t_pipex *pipex, char **av, int ac)
 	{
 		pipex->fd_outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_APPEND,
 				0777);
+		if (pipex->fd_outfile < 0)
+			perror("Outfile not opening");
 		handle_heredoc(av[2]);
 		pipex->fd_infile = open(".heredoc_tmp", O_RDONLY);
 		if (pipex->fd_infile < 0)
-			perror("Heredoc tmp file not opening in main");
+			perror("Heredoc tmp file not opening");
 	}
 	else if (pipex->start == 2)
 	{

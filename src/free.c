@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:56:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 14:31:34 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/10 16:16:38 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	free_all(t_pipex *pipex)
 {
 	if (!pipex)
 		return ;
+	if (pipex->cmd)
+		free(pipex->cmd);
 	free_parent(pipex);
 	free_child(pipex);
 }

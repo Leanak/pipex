@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 14:16:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 14:33:50 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:47:51 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,21 @@ void	forking(t_pipex *pipex, char **av, char **envp)
 	pipex->pid1 = fork();
 	if (pipex->pid1 == 0)
 		first_child(pipex, av, envp);
+	else if (pipex->pid1 < 0)
+	{
+		perror("First forking failed");
+		close(pipex->pipou[1]);
+		exit(1);
+	}
 	pipex->pid2 = fork();
 	if (pipex->pid2 == 0)
 		second_child(pipex, av, envp);
+	else if (pipex->pid2 < 0)
+	{
+		perror("Second forking failed");
+		close(pipex->pipou[1]);
+		exit(1);
+	}
 }
 
 void	piping(t_pipex *pipex)
